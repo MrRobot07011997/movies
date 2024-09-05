@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix-Style App</title>
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #000;
+        }
+
+        header img {
+            height: 30px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            background-image: url('https://i.ytimg.com/vi/bC36d8e3bb0/maxresdefault.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero .content {
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .hero .btn-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-play {
+            background-color: #e50914;
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .btn-play img {
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        /* Section styles */
+        .section {
+            padding: 20px;
+        }
+
+        .section h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 150px;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card img {
+            border-radius: 10px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Bottom Navbar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #000;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .bottom-nav a {
+            text-align: center;
+            flex-grow: 1;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* Player Modal */
+        .player-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+
+        .player-container video {
+            width: 80%;
+            height: 80%;
+        }
+
+        .close-player {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* View More Button */
+        .view-more {
+            display: block;
+            margin-top: 10px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="https://i.ibb.co/ChBz91r/photo-2023-11-10-16-09-34.jpg" alt="MyFlix Logo">
+        <nav>
+            <a href="#">TV Shows</a>
+            <a href="#">Movies</a>
+            <a href="#">Categories</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="content">
+            <h1>Ghoul</h1>
+            <div class="btn-container">
+                
+                <button class="btn-play" onclick="loadChannel('https://ay.bigtimedelivery.net/_v13/fb4e629453450057d9e7a9b3a537b40ba1472c3f122bc89ebc12c364fe6f7f0d5da86877820fe03f3ba3b4338d8f092a998398173c3950fe5ffab0b8ca83cce412192ff45db7ab28d1e7befef91d1a53c3b877da458990492e8912dd9ac1b6c7a2c98e81cc8fbdb9b60b0843ff2bc5f474b68e56a3e405c10c10af81fd980268/720/index.m3u8')">
+                     Play
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Continue Watching -->
+    <section class="section">
+        <h2>Continue Watching</h2>
+        <div class="card-container">
+            <div class="card" onclick="loadChannel('https://ay.bigtimedelivery.net/_v13/fb4e629453450057d9e7a9b3a537b40ba1472c3f122bc89ebc12c364fe6f7f0d5da86877820fe03f3ba3b4338d8f092a998398173c3950fe5ffab0b8ca83cce412192ff45db7ab28d1e7befef91d1a53c3b877da458990492e8912dd9ac1b6c7a2c98e81cc8fbdb9b60b0843ff2bc5f474b68e56a3e405c10c10af81fd980268/720/index.m3u8')">
+                <img src="https://img.andyday.tv/xxrz/250x400/697/27/0a/270a7e930f565bbe9d5b7af4f06d840a/270a7e930f565bbe9d5b7af4f06d840a.jpg" alt="KALKI ">
+            </div>
+            <div class="card" onclick="loadChannel('https://ap.bigtimedelivery.net/_v13/2e27b7b59f31516a279ade4746337abbaee28a1e1b37692030fbe9590a9ddf149cff2bae593c617315d5d08211156c91170d18548920599939bdb37d66d5f64be57734479966b00c51078faf4580c807cbce15ea698f9769d0b4aefd37db340bfb85689d640d561f07806dd813a23fc6447b07a3928e3e8c32e063a7e465aa53/720/index.m3u8')">
+                <img src="https://img.andyday.tv/xxrz/250x400/697/6d/0f/6d0fb4d540523fe3f434662a4dbd5a95/6d0fb4d540523fe3f434662a4dbd5a95.jpg" alt="Mr. & Mrs. Mahi">
+            </div>
+
+            
+<div class="card" onclick="loadChannel('https://an.bigtimedelivery.net/_v13/640cd1e90a58ece4fd8820d6a0e2c78fc5549a09ea35332fd05a9e99396cbb1b54412c938382730b5118a99514f0c9bc8ffb291bb4ecbb9bb1f9e6201d48e81d5e46f8500dd48a673560029c15f4e2488fffae8d2425b782e1d10668dc2ff8cdef4d936e95a2c8b4cd80a82926dbc08a908523f66db0229b591e83d248016f95/720/index.m3u8')">
+    <img src="https://img.andyday.tv/xxrz/250x400/697/ca/9d/ca9d5978adeb1455a4d1b436c9c08623/ca9d5978adeb1455a4d1b436c9c08623.jpg" alt="Srikanth">
+</div>
+<!--add more-->
+<div class="card" onclick="loadChannel('https://at.bigtimedelivery.net/_v13/ffa4c26046ffe15268660c385db9bd29cb7b21e0bb0749e5a47d44ce6d9b16b1922f13e3482cbb47722388589de1683f0c3011ed97406a31d8a83357e824e3f2889963d94fde02f9da0c2818117a878cf12da319a76a5ba142e2d981985cb9f7e58db7b065755d017a4ef94e1e512c48d162736fd91dbf2012261f682177a701/720/index.m3u8')">
+    <img src="https://img.andyday.tv/xxrz/250x400/697/1e/64/1e64da6d654b53daff104e3189ca5846/1e64da6d654b53daff104e3189ca5846.jpg" alt="Kill">
+</div>
+
+<div class="card" onclick="loadChannel('https://ao.bigtimedelivery.net/_v13/2e5636c78c7515bb5d8aeecd8d9073221c633dbdf710497bd01a4243290da4166d0fb7babbc317fb0087ef683aec251b8beae640401110b99e639ca11b740177214826581f69ba496a1ef64ce0b7b19ab3ce1858cb7f0a008ddb6f60baf214acaba3ec901a96e26d636bec06947d79baca951a8fc12a286cac9c5f26bab1bfa4/720/index.m3u8')">
+    <img src="https://img.andyday.tv/xxrz/250x400/697/ec/d7/ecd7abd2c25ef985c1cbd55fa62a97b8/ecd7abd2c25ef985c1cbd55fa62a97b8.jpg" alt="Wild Wild Punjab">
+</div>
+
+<div class="card" onclick="loadChannel('http://starshare.live:8080/movie/6969867/6969867/353774.mp4')">
+    <img src="https://m.media-amazon.com/images/M/MV5BOTI0ZDM0ZDktZWMyMy00YWJjLWIzY2YtNzFkN2ZiMWNiNzk1XkEyXkFqcGdeQXVyMTU0ODI1NTA2._V1_.jpg" alt="MAHARAJA">
+</div>
+        </div>
+        <button class="view-more" onclick="viewMore('continue-watching')">View More</button>
+    </section>
+
+    <!-- Popular on MyFlix -->
+    <section class="section">
+        <h2>Popular on MyFlix</h2>
+        <div class="card-container">
+            <div class="card" onclick="loadChannel('https://as.bigtimedelivery.net/_v13/425dc3594411c58c16d6f3106fe7712267d93aad2846aaf272f643dddc3cf1146c1cac083115c580748c94648131b5a0cc73977feac837bcab767aaaa81226b74c3cfe13ce066ac4fdd42fed994b86d195b57a66ccdaae0573979a42c67ea75ff2acb1567df62e19779ec013599377de3272929a4e12e9b276cd5a797ca2ed76/720/index.m3u8')">
+                <img src="https://img.andyday.tv/xxrz/250x400/697/ac/04/ac04c08481f19f5e1675153472cf5867/ac04c08481f19f5e1675153472cf5867.jpg" alt="Deadpool & Wolverine">
+            </div>
+            <div class="card" onclick="loadChannel('https://as.bigtimedelivery.net/_v13/e94d1b29b512749b59f6f0312234637123c12c69650605622aef61b1d39fb388493e093ba8f6045e98cc47a89e7617251c32c2356027f44c2a4d5a6881c29e6988fea91a2f43789c0b4a0c80fcf7194e0f0345455a02cfb7f3af0b9b9ddb7e8f28b6727bfeae8de91eed278f6d40a0130d9c48a88ecc0c805f3522c365d3d6c1/720/index.m3u8')">
+                <img src="https://img.andyday.tv/xxrz/250x400/697/c4/33/c4331df0660bc6e832452094a36c5d53/c4331df0660bc6e832452094a36c5d53.jpg" alt="Furiosa: A Mad Max Saga">
+            </div>
+
+            <div class="card" onclick="loadChannel('https://cdn3.einthusan.io/etv/content/D3aaK.mp4.m3u8?e=1725532053&md5=-czGysPzzM6_6CBl4S8qXA')">
+                <img src="https://img.andyday.tv/xxrz/250x400/697/c4/33/c4331df0660bc6e832452094a36c5d53/c4331df0660bc6e832452094a36c5d53.jpg" alt="Furiosa: A Mad Max Saga">
+            </div>
+
+            <div class="card" onclick="loadChannel('http://starshare.live:8080/movie/6969867/6969867/356785.mp4')">
+                <img src="https://img.andyday.tv/xxrz/250x400/697/c4/33/c4331df0660bc6e832452094a36c5d53/c4331df0660bc6e832452094a36c5d53.jpg" alt="Furiosa: A Mad Max Saga">
+            </div>
+
+            <div class="card" onclick="loadChannel('http://starshare.live:8080/movie/6969867/6969867/160003.mkv')">
+                <img src="https://img.andyday.tv/xxrz/250x400/697/c4/33/c4331df0660bc6e832452094a36c5d53/c4331df0660bc6e832452094a36c5d53.jpg" alt="Furiosa: A Mad Max Saga">
+            </div>
+                    
+
+        </div>
+        <button class="view-more" onclick="viewMore('popular')">View More</button>
+    </section>
+
+    <!-- Bottom Navbar -->
+    <div class="bottom-nav">
+        <a href="#">&#x1F3AC; Home</a>
+        <a href="#">&#x1F50D; Search</a>
+        <a href="#">&#x1F4C4; Downloads</a>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div id="player-container" class="player-container">
+        <video id="video" controls></video>
+        <button id="close-player" class="close-player">Close</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        const video = document.getElementById('video');
+        const playerContainer = document.getElementById('player-container');
+        let videoSource = '';
+
+        // Function to load the video stream
+        function loadChannel(source) {
+            videoSource = source;
+            loadVideo();
+            showPlayer();
+        }
+
+        // Function to initialize and load video
+        function loadVideo() {
+            if (videoSource.endsWith('.m3u8')) {
+                if (Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(videoSource);
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                        video.play();
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = videoSource;
+                    video.addEventListener('loadedmetadata', function() {
+                        video.play();
+                    });
+                } else {
+                    console.error("This browser does not support HLS.");
+                }
+            } else if (videoSource.endsWith('.mp4')) {
+                video.src = videoSource;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            } else {
+                console.error("Unsupported video format.");
+            }
+        }
+
+        // Function to display the player container (modal)
+        function showPlayer() {
+            playerContainer.style.display = 'flex';
+        }
+
+        // Function to hide the player and stop the video
+        function closePlayer() {
+            playerContainer.style.display = 'none';
+            video.pause();
+            video.src = '';
+        }
+
+        document.getElementById('close-player').addEventListener('click', closePlayer);
+
+        // Dummy function for 'View More' buttons
+        function viewMore(section) {
+            alert(`View more content for ${section}`);
+        }
+    </script>
+</body>
+</html>
