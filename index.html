@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix-Style App</title>
+    <title>GKMOVIES</title>
     <style>
         /* General styles */
         body {
@@ -82,38 +82,72 @@
             margin-right: 10px;
         }
 
-        /* Section styles */
+        /* Updated Section styles for Netflix-like scrollable rows */
         .section {
-            padding: 20px;
+            position: relative;
+            padding: 20px 0;
         }
 
         .section h2 {
             font-size: 22px;
             margin-bottom: 10px;
+            margin-left: 20px;
         }
 
         .card-container {
             display: flex;
-            gap: 10px;
-            flex-wrap: nowrap;
-            overflow: hidden;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            padding: 20px 0;
+        }
+
+        .card-container::-webkit-scrollbar {
+            display: none; /* WebKit */
         }
 
         .card {
-            width: 150px;
-            height: 220px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 10px;
-            position: relative;
+            flex: 0 0 auto;
+            width: 200px;
+            height: 300px;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
             cursor: pointer;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
         }
 
         .card img {
-            border-radius: 10px;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 20px;
+        }
+
+        .scroll-left {
+            left: 0;
+        }
+
+        .scroll-right {
+            right: 0;
         }
 
         /* Bottom Navbar */
@@ -166,74 +200,59 @@
             font-size: 16px;
         }
 
-        /* View More Button */
-        .view-more {
-            display: block;
-            margin-top: 10px;
-            background-color: #e50914;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
+        /* Icon Style */
+        .join-icon {
+            font-size: 24px;
             cursor: pointer;
-            text-align: center;
-            border-radius: 5px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #0078d4;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* Icon Style */
-.join-icon {
-    font-size: 24px;
-    cursor: pointer;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #0078d4;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
+        /* Popup Style */
+        .popup {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
 
-/* Popup Style */
-.popup {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
+        .popup-content {
+            background-color: rgb(35, 34, 34);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+        }
 
-.popup-content {
-    background-color: rgb(35, 34, 34);
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    width: 80%;
-    max-width: 400px;
-}
+        .popup-content a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #0078d4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
 
-.popup-content a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #0078d4;
-    color: rgb(79, 44, 44);
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-.close-btn {
-    font-size: 24px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
+        .close-btn {
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -252,9 +271,8 @@
         <div class="content">
             <h1>Ghoul</h1>
             <div class="btn-container">
-                
                 <button class="btn-play" onclick="loadChannel('https://ay.bigtimedelivery.net/_v13/fb4e629453450057d9e7a9b3a537b40ba1472c3f122bc89ebc12c364fe6f7f0d5da86877820fe03f3ba3b4338d8f092a998398173c3950fe5ffab0b8ca83cce412192ff45db7ab28d1e7befef91d1a53c3b877da458990492e8912dd9ac1b6c7a2c98e81cc8fbdb9b60b0843ff2bc5f474b68e56a3e405c10c10af81fd980268/720/index.m3u8')">
-                     Play
+                    Play
                 </button>
             </div>
         </div>
